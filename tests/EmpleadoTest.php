@@ -44,6 +44,85 @@ class EmpleadoTest extends \PHPUnit\Framework\TestCase
 		$this->expectException(\Exception::class);
 		$p = $this->crearE_Permanente("","Prieto",36207505,70000);
 	}
+
+	public function testNoSePuedeCrearConApellidoVacioEmpleadoEventual()
+	{
+		$this->expectException(\Exception::class);
+		$e = $this->crearE_Eventual("Nicolas","",36000111,60000,$montos= array (100,200,300,400));
+	}
+
+	public function testNoSePuedeCrearConApellidoVacioEmpleadoPermanente()
+	{
+		$this->expectException(\Exception::class);
+		$p = $this->crearE_Permanente("Mauro","",36207505,70000);
+	}
+
+	public function testDNIDelEmpleado()
+	{
+		$e = $this->crearE_Eventual("Nicolas","Quartero",36000111,60000,$montos= array (100,200,300,400));
+		$this->assertEquals(36000111,$e->getDNI());
+		$p = $this->crearE_Permanente("Mauro","Prieto",36207505,70000);
+		$this->assertEquals(36207505,$p->getDNI());
+	}
+
+	public function testNoSePuedeConstruirConDNIvacioEmpleadoEventual()
+	{
+		$this->expectException(\Exception::class);
+		$e = $this->crearE_Eventual("Nicolas","Quartero","",60000,$montos= array (100,200,300,400));
+	}
+
+	public function testNoSePuedeConstruirConDNIvacioEmpleadoPermanente()
+	{
+		$this->expectException(\Exception::class);
+		$e = $this->crearE_Permanente("Mauro","Prieto","",70000);
+	}
+
+	public function testSalarioDelEmpleado()
+	{
+		$e = $this->crearE_Eventual("Nicolas","Quartero",36000111,60000,$montos= array (100,200,300,400));
+		$this->assertEquals(60000,$e->getSalario());
+		$p = $this->crearE_Permanente("Mauro","Prieto",36207505,70000);
+		$this->assertEquals(70000,$p->getSalario());
+	}
+
+	public function testNoSePuedeConstruirConSalarioVacioEmpleadoEventual()
+	{
+		$this->expectException(\Exception::class);
+		$e = $this->crearE_Eventual("Nicolas","Quartero",36000111,"",$montos= array (100,200,300,400));		
+	}
+
+	public function testNoSePuedeConstruirConSalarioVacioEmpleadoPermanente()
+	{
+		$this->expectException(\Exception::class);
+		$p = $this->crearE_Permanente("Mauro","Prieto",36207505,"");		
+	}
+
+	public function testGetYSetSectorDelEmpleado()
+	{
+		$e = $this->crearE_Eventual("Nicolas","Quartero",36000111,60000,$montos= array (100,200,300,400)); //'e' de Eventual
+		$e -> setSector('e');
+		$this->assertEquals('e',$e->getSector());
+		$p = $this->crearE_Permanente("Mauro","Prieto",36207505,70000); //'p' de Permanente
+		$p -> setSector('p');
+		$this->assertEquals('p',$p->getSector());
+	}
+
+
+	public function test__toString()
+	{
+		$e = $this->crearE_Eventual("Nicolas","Quartero",36000111,60000,$montos= array (100,200,300,400));
+		$this->assertEquals("Nicolas Quartero 36000111 60000",$e->__toString());
+		$p = $this->crearE_Permanente("Mauro","Prieto",36207505,70000);
+		$this->assertEquals("Mauro Prieto 36207505 70000",$p->__toString());
+	}
+
+	public function testSiNoSeEspecificaElSector()
+	{
+		$e = $this->crearE_Eventual("Nicolas","Quartero",36000111,60000,$montos= array (100,200,300,400));
+		$this->assertEquals("No especificado",$e->getSector());
+		$p = $this->crearE_Permanente("Mauro","Prieto",36207505,70000);
+		$this->assertEquals("No especificado",$p->getSector());
+	}
 }
 
 ?>
