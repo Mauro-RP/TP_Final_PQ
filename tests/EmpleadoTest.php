@@ -32,6 +32,18 @@ class EmpleadoTest extends \PHPUnit\Framework\TestCase
 		$this->expectException(\Exception::class);
 		$p = $this->crearE_Permanente("Mauro","Prieto",'361a12b2',70000);
 	}
+
+	public function testNoSePuedeCrearConNombreVacioEmpleadoEventual()
+	{
+		$this->expectException(\Exception::class);
+		$e = $this->crearE_Eventual("","Quartero",36000111,60000,$montos= array (100,200,300,400));
+	}
+
+	public function testNoSePuedeCrearConNombreVacioEmpleadoPermanente()
+	{
+		$this->expectException(\Exception::class);
+		$p = $this->crearE_Permanente("","Prieto",36207505,70000);
+	}
 }
 
 ?>
