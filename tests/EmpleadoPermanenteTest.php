@@ -19,13 +19,36 @@ class EmpleadoPermanenteTest extends EmpleadoTest
 		$this->assertEquals(0,$ep->calcularAntiguedad());
 	}
 
-	//testeando que si se ingresa una futura como ingreso, lance una excepcion
+	//Testeando que si se ingresa una futura como ingreso, lance una excepcion
 	public function testFechaDeIngresoFutura()
 	{
 		$fechaIngreso = new DateTime();
 		$fechaIngreso->add(new DateInterval('P1Y'));
 		$this->expectException(\Exception::class);
 		$ep = $this->crearE_Permanente("Mauro","Prieto",36207505,70000, $fechaIngreso);
+	}
+	//Testeando el calculo de la antiguedad en años
+	public function testCalcularAntiguedad()
+	{
+		$fechaIngreso = new DateTime('2013-03-01 00:00:00');
+		$ep = $this->crearE_Permanente("Mauro","Prieto",36207505,70000, $fechaIngreso);
+		$this->assertEquals(8, $ep->calcularAntiguedad());
+	}
+
+	//Testeando el calculo de la comusion segun los años de antiguedad
+	public function testcalcularComision()
+	{
+		$fechaIngreso = new DateTime('2013-03-01 00:00:00');
+		$ep = $this->crearE_Permanente("Mauro","Prieto",36207505,70000,$fechaIngreso);
+		$this->assertEquals("8%",$ep->calcularComision());
+	}
+
+	//Prueba del calculo del ingreso total
+	public function testcalcularIngresoTotal()
+	{
+		$fechaIngreso = new DateTime('2013-03-01 00:00:00');
+		$ep = $this->crearE_Permanente("Nicolas","Prieto",36207505,70000,$fechaIngreso);
+		$this->assertEquals(70000 + (70000 * (8 / 100)),$ep->calcularIngresoTotal());
 	}
 
 }
