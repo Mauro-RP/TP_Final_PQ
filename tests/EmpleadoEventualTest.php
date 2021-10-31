@@ -22,5 +22,18 @@ class EmpleadoEventualTest extends EmpleadoTest
 		$this->assertEquals(60000 + $empE -> calcularComision(), $empE -> calcularIngresoTotal());	
 	}
 
+	public function testProbarMontoDeVentaNegativoYCero()
+	{
+		$this->expectException(\Exception::class);
+		$vent = array(100,200,300,-400,500);
+		$empE = $this->crearE_Eventual($this->nombre,$this->apellido,$this->DNI,$this->salario,$vent);
+	}
+
+	public function testProbarMontoDeVentaCero()
+	{
+		$this->expectException(\Exception::class);
+		$vents = array(100,200,300,0,500);
+		$empEv = $this->crearE_Eventual($this->nombre,$this->apellido,$this->DNI,$this->salario,$vents);
+	}
 }
 ?>
